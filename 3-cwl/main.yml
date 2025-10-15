@@ -1,0 +1,5 @@
+input_file:
+  class: File
+  path: data.csv
+target_column: "MEDV"
+training_percentage: 0.8

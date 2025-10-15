@@ -1,3 +1,9 @@
+FROM python:3.11-slim
+
 WORKDIR /app
 
-RUN pip instal -r requirments.txt
+COPY requirments.txt .
+
+RUN pip install -r requirments.txt
+
+COPY . .
