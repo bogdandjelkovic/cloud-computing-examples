@@ -20,7 +20,7 @@ pip install cwltool
 
 ```bash
 # Run CWL workflow with input file
-cwl-runner main.cwl main.yaml
+cwltool main.cwl main.yml
 ```
 
-Link to docker image used: [bogdandjelkovic/cc-3-cwl-model-training](https://hub.docker.com/repository/docker/bogdandjelkovic/cc-3-cwl-model-training/general)
+Link to docker image: [bogdandjelkovic/cc-3-cwl-model-training](https://hub.docker.com/repository/docker/bogdandjelkovic/cc-3-cwl-model-training/general)

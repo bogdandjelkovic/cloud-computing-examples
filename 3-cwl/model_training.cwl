@@ -1,7 +1,10 @@
 cwlVersion: v1.2
-
 class: CommandLineTool
-baseCommand: ["python", "/app/training.py"]
+
+baseCommand: ["python", "app/model_training.py"]
+
+# no container run
+# baseCommand: ["python3", "/mnt/c/cc/cloud-computing-examples/3-cwl/model_training.py"]
 
 hints:
     DockerRequirement:
