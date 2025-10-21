@@ -4,13 +4,13 @@ Commands to build and run the CWL workflow using Docker:
 
 ```bash
 # Build Docker image from current directory
-docker build -t bogdandjelkovic/cc-3-cwl-model-training .
+docker build -t bogdandjelkovic/6-kubernetes-ml .
 ```
 
 ```bash
 # Push Docker image to Docker Hub
-docker tag bogdandjelkovic/cc-3-cwl-model-training bogdandjelkovic/cc-3-cwl-model-training
-docker push bogdandjelkovic/cc-3-cwl-model-training
+docker tag bogdandjelkovic/6-kubernetes-ml bogdandjelkovic/6-kubernetes-ml
+docker push bogdandjelkovic/6-kubernetes-ml
 ```
 
 ```bash
@@ -28,4 +28,4 @@ cwltool --outdir ./results main.cwl main.yml
 cwltool --no-container --outdir ./results main.cwl main.yml
 ```
 
-Link to docker image: [bogdandjelkovic/cc-3-cwl-model-training](https://hub.docker.com/repository/docker/bogdandjelkovic/cc-3-cwl-model-training/general)
+Link to docker image: [bogdandjelkovic/6-kubernetes-ml](https://hub.docker.com/repository/docker/bogdandjelkovic/6-kubernetes-ml/general)

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wine-ml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wine-ml
+  template:
+    metadata:
+      labels:
+        app: wine-ml
+    spec:
+      initContainers:
+      - name: init-wine-data
+        image: busybox
+        command: ['sh', '-c', 'cp /wine-quality-white-and-red.csv /mnt/data/']
+        volumeMounts:
+        - name: wine-data
+          mountPath: /mnt/data
+        - name: csv-file
+          mountPath: /csv
+      containers:
+      - name: wine-ml
+        image: bogdandjelkovic/6-kubernetes-ml
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - mountPath: /mnt/data
+          name: wine-data
+      volumes:
+      - name: wine-data
+        persistentVolumeClaim:
+          claimName: wine-data-pvc
+      - name: csv-file
+        configMap:
+          name: wine-csv-config

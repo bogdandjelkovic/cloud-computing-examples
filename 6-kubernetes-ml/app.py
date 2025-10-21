@@ -9,9 +9,10 @@ import os
 
 app = Flask(__name__)
 
-DATA_PATH = "wine-quality-white-and-red.csv"
-MODEL_PATH = "model.pkl"
-FEATURES_PATH = "features.pkl"
+PERSISTENT_VOLUME_PATH = "/mnt/data"
+DATA_PATH = os.path.join(PERSISTENT_VOLUME_PATH, "wine-quality-white-and-red.csv")
+MODEL_PATH = os.path.join(PERSISTENT_VOLUME_PATH, "model.pkl")
+FEATURES_PATH = os.path.join(PERSISTENT_VOLUME_PATH, "features.pkl")
 TARGET_COLUMN = "quality"
 
 def preprocess_df(df, training=False):
@@ -71,9 +72,9 @@ def train():
 
     model = LogisticRegression(max_iter=1000)
     model.fit(X_train, y_train)
-
     y_pred = model.predict(X_test)
 
+    os.makedirs(PERSISTENT_VOLUME_PATH, exist_ok=True)
     with open(MODEL_PATH, 'wb') as f:
         pickle.dump(model, f)
     with open(FEATURES_PATH, 'wb') as f:
@@ -116,9 +117,8 @@ def predict():
 
     response = []
     for i in range(len(X)):
-        fields_dict = X.iloc[i].to_dict()
         response.append({
-            "fields": fields_dict,
+            "fields": X.iloc[i].to_dict(),
             "actualValue": y_actual[i],
             "predictedValue": preds[i]
         })
@@ -126,4 +126,4 @@ def predict():
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
