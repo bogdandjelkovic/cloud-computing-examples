@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "2021b138-27f2-4c7e-b111-751cacd3cda9",
+		"name": "6-kubernetes-ml",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23407445"
+	},
+	"item": [
+		{
+			"name": "train",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "train_test_perc",
+							"value": "0.8",
+							"type": "text"
+						}
+					],
+					"options": {
+						"formdata": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/train",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"train"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "predict",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": ""
+						}
+					],
+					"options": {
+						"formdata": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/predict",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "endpoint",
+			"value": "http://k8s-master.unic.kg.ac.rs:30794",
+			"type": "string"
+		}
+	]
+}
