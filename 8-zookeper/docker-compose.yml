@@ -1,77 +1,59 @@
 services:
-  zookeeper1:
-    image: zookeeper:3.9
-    container_name: zookeeper1
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2181:2181
     environment:
       ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888
-    ports:
-      - "2181:2181"
-    networks:
-      - zk-net
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
 
-  zookeeper2:
-    image: zookeeper:3.9
-    container_name: zookeeper2
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    ports:
+      - 2182:2181
     environment:
       ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888
-    networks:
-      - zk-net
-      
-  zookeeper3:
-    image: zookeeper:3.9
-    container_name: zookeeper3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    ports:
+      - 2183:2181
     environment:
       ZOO_MY_ID: 3
-      ZOO_SERVERS: server.1=zookeeper1:2888:3888 server.2=zookeeper2:2888:3888 server.3=zookeeper3:2888:3888
-    networks:
-      - zk-net
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
 
   api1:
     build:
       context: ./app
     container_name: api1
     environment:
-      ZOOKEEPER_HOSTS: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
+      ZOO_HOSTS: "zoo1:2181,zoo2:2181,zoo3:2181"
     ports:
       - "8001:8000"
     depends_on:
-      - zookeeper1
-      - zookeeper2
-      - zookeeper3
-    networks:
-      - zk-net
+      - zoo1
+      - zoo2
+      - zoo3
 
   api2:
     build:
       context: ./app
     container_name: api2
     environment:
-      ZOOKEEPER_HOSTS: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
+      ZOO_HOSTS: "zoo1:2181,zoo2:2181,zoo3:2181"
     ports:
       - "8002:8000"
     depends_on:
-      - zookeeper1
-      - zookeeper2
-      - zookeeper3
-    networks:
-      - zk-net
-
-  api3:
-    build:
-      context: ./app
-    container_name: api3
-    environment:
-      ZOOKEEPER_HOSTS: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
-    ports:
-      - "8003:8000"
-    depends_on:
-      - zookeeper1
-      - zookeeper2
-      - zookeeper3
-    networks:
-      - zk-net
+      - zoo1
+      - zoo2
+      - zoo3
 
 networks:
   zk-net:

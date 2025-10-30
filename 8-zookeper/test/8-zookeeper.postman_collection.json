@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "f3f2608e-13fd-4b7f-9b25-34ce29ea6f6d",
+		"name": "8-zookeeper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23407445"
+	},
+	"item": [
+		{
+			"name": "model-1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint1}}/model",
+					"host": [
+						"{{endpoint1}}"
+					],
+					"path": [
+						"model"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "model-1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "train_test_perc",
+							"value": "0.8",
+							"type": "text"
+						}
+					],
+					"options": {
+						"formdata": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/model",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"model"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "predict-1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"features\": {\r\n        \"type\": \"white\",\r\n        \"fixed acidity\": 7,\r\n        \"volatile acidity\": 0.27,\r\n        \"citric acid\": 0.36,\r\n        \"residual sugar\": 20.7,\r\n        \"chlorides\": 0.045,\r\n        \"free sulfur dioxide\": 45,\r\n        \"total sulfur dioxide\": 170,\r\n        \"density\": 1.001,\r\n        \"pH\": 3,\r\n        \"sulphates\": 0.45,\r\n        \"alcohol\": 8.8,\r\n        \"quality\": \"6\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint1}}/predict",
+					"host": [
+						"{{endpoint1}}"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "model-2",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "model-2",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "train_test_perc",
+							"value": "0.8",
+							"type": "text"
+						}
+					],
+					"options": {
+						"formdata": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint2}}/model",
+					"host": [
+						"{{endpoint2}}"
+					],
+					"path": [
+						"model"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "predict-2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"features\": {\r\n        \"type\": \"white\",\r\n        \"fixed acidity\": 7,\r\n        \"volatile acidity\": 0.27,\r\n        \"citric acid\": 0.36,\r\n        \"residual sugar\": 20.7,\r\n        \"chlorides\": 0.045,\r\n        \"free sulfur dioxide\": 45,\r\n        \"total sulfur dioxide\": 170,\r\n        \"density\": 1.001,\r\n        \"pH\": 3,\r\n        \"sulphates\": 0.45,\r\n        \"alcohol\": 8.8,\r\n        \"quality\": \"6\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint2}}/predict",
+					"host": [
+						"{{endpoint2}}"
+					],
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "endpoint1",
+			"value": "127.0.0.1:8001",
+			"type": "string"
+		},
+		{
+			"key": "endpoint2",
+			"value": "127.0.0.1:8002",
+			"type": "string"
+		}
+	]
+}
