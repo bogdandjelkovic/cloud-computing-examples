@@ -28,11 +28,11 @@ for _ in range(10):
         connected = True
         break
     except Exception:
-        print("ZooKeeper not ready, retrying...")
+        print("zookeeper not ready, retrying...")
         time.sleep(3)
 
 if not connected:
-    raise Exception("Could not connect to ZooKeeper!")
+    raise Exception("failed to connect to zookeeper!")
 
 MODEL_FILE = 'local_pipeline.pkl'
 INFO_FILE = 'local_pipeline_info.pkl'
@@ -42,14 +42,14 @@ model_info = None
 
 
 def sync_to_zk(znode: str, data_obj):
-    print(f"[SYNC] syncing to {znode}...")
+    print(f"{znode} syncing...")
     data = pickle.dumps(data_obj)
     if zk.exists(znode):
         zk.set(znode, data)
-        print(f"[SYNC] znode {znode} updated")
+        print(f"{znode} updated")
     else:
         zk.create(znode, data)
-        print(f"[SYNC] znode {znode} created")
+        print(f"{znode} created")
 
 
 def load_from_zk(znode: str):
@@ -86,12 +86,12 @@ async def update_model(
     train_test_split_ratio: float = Form(0.8)
 ):
     if not file.filename.endswith(".csv"):
-        raise HTTPException(status_code=400, detail="CSV file required")
+        raise HTTPException(status_code=400)
 
     df = pd.read_csv(file.file)
 
     if target_column not in df.columns:
-        raise HTTPException(status_code=400, detail=f"Target column '{target_column}' not found")
+        raise HTTPException(status_code=400)
 
     X = df.drop(columns=[target_column])
     y = df[target_column]
@@ -175,7 +175,7 @@ async def predict(req: PredictRequest):
         pipeline = latest_pipeline
 
     if not pipeline:
-        raise HTTPException(status_code=500, detail="No model available")
+        raise HTTPException(status_code=500)
 
     X_new = pd.DataFrame([req.features])
 
@@ -186,27 +186,25 @@ async def predict(req: PredictRequest):
             result = str(result)
         return {"prediction": result}
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Prediction failed: {str(e)}")
+        raise HTTPException(status_code=400)
 
 
 @app.get("/model")
 async def get_model_info():
     global model_info
     if not model_info:
-        print("model not loaded globally, loading from zk")
         model_info = load_from_zk(INFO_ZNODE)
         if not model_info:
-            print("model not loaded from zk, loading from local")
             model_info = load_local(INFO_FILE)
 
     if not model_info:
-        raise HTTPException(status_code=404, detail="No model info found")
+        raise HTTPException(status_code=404)
 
     return model_info
 
 def zk_model_watch(data, stat, event):
     global pipeline, model_info
-    print(f"[WATCHER] znode changed, reloading...")
+    print(f"znode changed, reloading...")
     if data:
         pipeline = pickle.loads(data) if event.path == MODEL_ZNODE else pipeline
         model_info = pickle.loads(data) if event.path == INFO_ZNODE else model_info
