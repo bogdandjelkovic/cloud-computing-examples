@@ -19,3 +19,5 @@ kubectl get all -n bogdan
 kubectl describe pod train-job-bogdan-0-xkwjk -n bogdan
 kubectl logs train-job-bogdan-0-xkwjk -n bogdan
 ```
+
+![Jobs example](image.png)
