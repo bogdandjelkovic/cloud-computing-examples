@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: train-job-bogdan
+spec:
+  parallelism: 8
+  completions: 8
+  completionMode: Indexed
+  template:
+    spec:
+      containers:
+      - name: scatter-workflow-container
+        image: bogdandjelkovic/5-kubernetes-jobs
+        imagePullPolicy: Always
+        command: ["python", "/app/train_fold.py"]
+        env:
+        - name: DATASET_FILE
+          valueFrom:
+            configMapKeyRef:
+              name: training-config
+              key: dataset_file
+        - name: TARGET_COLUMN
+          valueFrom:
+            configMapKeyRef:
+              name: training-config
+              key: target_column
+        - name: K
+          valueFrom:
+            configMapKeyRef:
+              name: training-config
+              key: k
+        - name: JOB_COMPLETION_INDEX
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['batch.kubernetes.io/job-completion-index']
+        volumeMounts:
+        - name: results-volume
+          mountPath: /results
+      restartPolicy: Never
+      volumes:
+      - name: results-volume
+        emptyDir: {}
+  backoffLimit: 4

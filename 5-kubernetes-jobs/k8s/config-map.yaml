@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+data:
+  dataset_file: "/app/data.csv"
+  target_column: "MEDV"
+  k: "10"

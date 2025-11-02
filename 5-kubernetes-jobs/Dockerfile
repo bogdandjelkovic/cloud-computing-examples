@@ -2,8 +2,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirments.txt .
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install -r requirments.txt
+COPY app/ /app/
 
-COPY . .
+CMD ["python", "train_fold.py"]
