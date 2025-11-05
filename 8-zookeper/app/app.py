@@ -115,7 +115,6 @@ async def update_model(
         ]
     )
 
-    # ✅ Choose model based on target type
     if pd.api.types.is_numeric_dtype(y):
         model_type = LinearRegression()
         problem_type = "regression"
